@@ -11,6 +11,7 @@
   "author": "Maximilian Schwarzmüller",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^1.18.3"
   },
   "dependencies": {
@@ -19,7 +20,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
-    "mysql2": "^1.6.1",
+    "mysql2": "^3.14.1",
     "pug": "^2.0.3"
   }
 }
