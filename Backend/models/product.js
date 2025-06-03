@@ -1,5 +1,4 @@
 const db = require('../util/database');
-
 const Cart = require('./cart');
 
 module.exports = class Product {
@@ -18,13 +17,15 @@ module.exports = class Product {
     );
   }
 
-  static deleteById(id) {}
+  static deleteById(id) {
+    return db.execute('DELETE FROM products WHERE id = ?', [id]);
+  }
 
   static fetchAll() {
     return db.execute('SELECT * FROM products');
   }
 
   static findById(id) {
-    return db.execute('SELECT * FROM products WHERE products.id = ?', [id]);
+    return db.execute('SELECT * FROM products WHERE id = ?', [id]);
   }
 };
