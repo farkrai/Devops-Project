@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions>
+  <!-- Suppress CVE-2021-32820 (express-handlebars 7.1.3) -->
+  <suppress>
+    <cve>CVE-2021-32820</cve>
+    <notes>Accepted risk: express-handlebars 7.1.3</notes>
+  </suppress>
+
+  <!-- Suppress CVE-2024-10491 (express 4.21.2) -->
+  <suppress>
+    <cve>CVE-2024-10491</cve>
+    <notes>Accepted risk: express 4.21.2</notes>
+  </suppress>
+</suppressions>
