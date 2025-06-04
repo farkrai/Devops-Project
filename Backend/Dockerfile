@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 
 # Copy package files and install dependencies first (leverages Docker cache)
 COPY package*.json ./
-RUN npm install --production
+RUN npm install --production --ignore-scripts
 
 # Copy only necessary files to the working directory
 COPY . .
