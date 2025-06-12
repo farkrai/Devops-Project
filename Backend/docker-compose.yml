@@ -10,6 +10,8 @@ services:
       - DB_USER=root
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=node-complete
+    volumes:
+      - app-data:/usr/src/app/data
     depends_on:
       - mysql
 
@@ -27,3 +29,4 @@ services:
 
 volumes:
   mysql-data:
+  app-data:
