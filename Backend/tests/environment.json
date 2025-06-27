@@ -1,5 +1,5 @@
 {
-  "id": "d1e1f1c1-b1a1-41a1-b1c1-e1d1f1a1c1b1",
+  "id": "local-env",
   "name": "Local API Test",
   "values": [
     {
@@ -8,8 +8,6 @@
       "enabled": true
     }
   ],
-  "timestamp": 1749704381766,
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2025-06-12T04:59:41.766087Z",
   "_postman_exported_using": "Postman/10.0"
 }
