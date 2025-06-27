@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Shop API Test",
+    "name": "Shop API Test (Products Only)",
     "_postman_id": "a1b2c3d4-e5f6-7a8b-9c0d-e1f2a3b4c5d6",
-    "description": "API tests for Product and Cart endpoints",
+    "description": "API tests for Product endpoints only",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -21,10 +21,11 @@
           "raw": "{\n  \"title\": \"Test Shirt\",\n  \"price\": 19.99,\n  \"imageUrl\": \"https://example.com/shirt.jpg\",\n  \"description\": \"A test shirt\"\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/add-product"
+          "raw": "{{baseUrl}}/add-product",
+          "host": ["{{baseUrl}}"],
+          "path": ["add-product"]
         }
       },
-      "response": [],
       "event": [
         {
           "listen": "test",
@@ -44,10 +45,11 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{baseUrl}}/products"
+          "raw": "{{baseUrl}}/products",
+          "host": ["{{baseUrl}}"],
+          "path": ["products"]
         }
       },
-      "response": [],
       "event": [
         {
           "listen": "test",
@@ -56,63 +58,6 @@
               "pm.test(\"Fetched products\", function () {",
               "    pm.response.to.have.status(200);",
               "    pm.expect(pm.response.json()).to.be.an('array');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Add to Cart",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"productId\": \"1\",\n  \"productPrice\": 19.99\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/cart"
-        }
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Added to cart\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "View Cart",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/cart"
-        }
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Fetched cart\", function () {",
-              "    pm.response.to.have.status(200);",
-              "    pm.expect(pm.response.json()).to.have.property('totalPrice');",
               "});"
             ],
             "type": "text/javascript"
