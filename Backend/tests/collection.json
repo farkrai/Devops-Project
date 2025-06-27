@@ -21,13 +21,7 @@
           "raw": "{\n  \"title\": \"Test Shirt\",\n  \"price\": 19.99,\n  \"imageUrl\": \"https://example.com/shirt.jpg\",\n  \"description\": \"A test shirt\"\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/add-product",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "add-product"
-          ]
+          "raw": "{{baseUrl}}/add-product"
         }
       },
       "response": [],
@@ -50,13 +44,7 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{baseUrl}}/products",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "products"
-          ]
+          "raw": "{{baseUrl}}/products"
         }
       },
       "response": [],
@@ -90,13 +78,7 @@
           "raw": "{\n  \"productId\": \"1\",\n  \"productPrice\": 19.99\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/cart",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "cart"
-          ]
+          "raw": "{{baseUrl}}/cart"
         }
       },
       "response": [],
@@ -119,13 +101,7 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{baseUrl}}/cart",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "cart"
-          ]
+          "raw": "{{baseUrl}}/cart"
         }
       },
       "response": [],
