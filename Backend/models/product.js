@@ -12,20 +12,20 @@ module.exports = class Product {
 
   save() {
     return db.query(
-      'INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)',
+      'INSERT INTO product (title, price, imageUrl, description) VALUES (?, ?, ?, ?)',
       [this.title, this.price, this.imageUrl, this.description]
     );
   }
 
   static deleteById(id) {
-    return db.query('DELETE FROM products WHERE id = ?', [id]);
+    return db.query('DELETE FROM product WHERE id = ?', [id]);
   }
 
   static fetchAll() {
-    return db.query('SELECT * FROM products');
+    return db.query('SELECT * FROM product');
   }
 
   static findById(id) {
-    return db.query('SELECT * FROM products WHERE id = ?', [id]);
+    return db.query('SELECT * FROM product WHERE id = ?', [id]);
   }
 };
