@@ -11,21 +11,21 @@ module.exports = class Product {
   }
 
   save() {
-    return db.execute(
+    return db.query(
       'INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)',
       [this.title, this.price, this.imageUrl, this.description]
     );
   }
 
   static deleteById(id) {
-    return db.execute('DELETE FROM products WHERE id = ?', [id]);
+    return db.query('DELETE FROM products WHERE id = ?', [id]);
   }
 
   static fetchAll() {
-    return db.execute('SELECT * FROM products');
+    return db.query('SELECT * FROM products');
   }
 
   static findById(id) {
-    return db.execute('SELECT * FROM products WHERE id = ?', [id]);
+    return db.query('SELECT * FROM products WHERE id = ?', [id]);
   }
 };
