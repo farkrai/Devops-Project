@@ -11,36 +11,29 @@ exports.getAddProduct = (req, res, next) => {
 
 // POST: Add New Product
 exports.postAddProduct = (req, res, next) => {
-  const title = req.body.title;
-  const imageUrl = req.body.imageUrl;
-  const price = req.body.price;
-  const description = req.body.description;
+  const { title, imageUrl, price, description } = req.body;
   const product = new Product(null, title, imageUrl, description, price);
   product
     .save()
-    .then(() => {
-      res.redirect('/');
-    })
+    .then(() => res.redirect('/admin/products'))
     .catch(err => console.log(err));
 };
 
 // GET: Edit Product Page
 exports.getEditProduct = (req, res, next) => {
   const editMode = req.query.edit;
-  if (!editMode) {
-    return res.redirect('/');
-  }
+  if (!editMode) return res.redirect('/');
+
   const prodId = req.params.productId;
   Product.findById(prodId)
-    .then(([product]) => {
-      if (!product[0]) {
-        return res.redirect('/');
-      }
+    .then(([rows]) => {
+      const product = rows[0];
+      if (!product) return res.redirect('/');
       res.render('admin/edit-product', {
         pageTitle: 'Edit Product',
         path: '/admin/edit-product',
-        editing: editMode,
-        product: product[0]
+        editing: true,
+        product: product
       });
     })
     .catch(err => console.log(err));
@@ -48,18 +41,8 @@ exports.getEditProduct = (req, res, next) => {
 
 // POST: Save Edited Product
 exports.postEditProduct = (req, res, next) => {
-  const prodId = req.body.productId;
-  const updatedTitle = req.body.title;
-  const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
-  const updatedDesc = req.body.description;
-  const updatedProduct = new Product(
-    prodId,
-    updatedTitle,
-    updatedImageUrl,
-    updatedDesc,
-    updatedPrice
-  );
+  const { productId, title, imageUrl, price, description } = req.body;
+  const updatedProduct = new Product(productId, title, imageUrl, description, price);
   updatedProduct
     .save()
     .then(() => res.redirect('/admin/products'))
@@ -69,7 +52,7 @@ exports.postEditProduct = (req, res, next) => {
 // GET: List All Admin Products
 exports.getProducts = (req, res, next) => {
   Product.fetchAll()
-    .then(([products, _]) => {
+    .then(([products]) => {
       res.render('admin/products', {
         prods: products,
         pageTitle: 'Admin Products',
