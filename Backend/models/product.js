@@ -1,5 +1,4 @@
 const db = require('../util/database');
-const Cart = require('./cart');
 
 module.exports = class Product {
   constructor(id, title, imageUrl, description, price) {
@@ -11,21 +10,30 @@ module.exports = class Product {
   }
 
   save() {
-    return db.query(
-      'INSERT INTO product (title, price, imageUrl, description) VALUES (?, ?, ?, ?)',
-      [this.title, this.price, this.imageUrl, this.description]
-    );
-  }
-
-  static deleteById(id) {
-    return db.query('DELETE FROM product WHERE id = ?', [id]);
+    if (this.id) {
+      // UPDATE
+      return db.execute(
+        'UPDATE products SET title = ?, imageUrl = ?, description = ?, price = ? WHERE id = ?',
+        [this.title, this.imageUrl, this.description, this.price, this.id]
+      );
+    } else {
+      // INSERT
+      return db.execute(
+        'INSERT INTO products (title, imageUrl, description, price) VALUES (?, ?, ?, ?)',
+        [this.title, this.imageUrl, this.description, this.price]
+      );
+    }
   }
 
   static fetchAll() {
-    return db.query('SELECT * FROM product');
+    return db.execute('SELECT * FROM products');
   }
 
   static findById(id) {
-    return db.query('SELECT * FROM product WHERE id = ?', [id]);
+    return db.execute('SELECT * FROM products WHERE id = ?', [id]);
+  }
+
+  static deleteById(id) {
+    return db.execute('DELETE FROM products WHERE id = ?', [id]);
   }
 };
