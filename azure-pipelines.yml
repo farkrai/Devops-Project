@@ -91,14 +91,7 @@ steps:
     docker tag $(DOCKER_IMAGE_NAME):$(Build.BuildId) $(DOCKER_IMAGE_NAME):latest
   displayName: 'Docker Build'
 
-# Step 11: Docker Push
-- script: |
-    docker push $(DOCKER_IMAGE_NAME):$(Build.BuildId)
-    docker push $(DOCKER_IMAGE_NAME):latest
-  displayName: 'Docker Push'
-  condition: succeeded()
-
-# Step 12: Install Trivy
+# Step 11: Install Trivy
 - script: |
     wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.1_Linux-64bit.tar.gz
     tar zxvf trivy_0.50.1_Linux-64bit.tar.gz
@@ -106,26 +99,26 @@ steps:
     trivy --version
   displayName: 'Install Trivy'
 
-# Step 13: Trivy Docker Image Scan
+# Step 12: Trivy Docker Image Scan
 - script: |
     trivy image --format table --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
       --ignore-unfixed $(DOCKER_IMAGE_NAME):$(Build.BuildId)
   displayName: 'Trivy Docker Image Scan'
 
-# Step 14: Trivy File System Scan
+# Step 13: Trivy File System Scan
 - script: |
     trivy fs Backend --format table --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
       --ignore-unfixed
   displayName: 'Trivy File System Scan'
 
-# Step 15: Install Newman
+# Step 14: Install Newman
 - task: Npm@1
   displayName: 'Install Newman globally'
   inputs:
     command: 'custom'
     customCommand: 'install -g newman'
 
-# Step 16: Run Postman Product API Tests (Only Products)
+# Step 15: Run Postman Product API Tests (Only Products)
 - script: |
     mkdir -p newman
     newman run Backend/tests/collection.json \
@@ -134,7 +127,7 @@ steps:
       --reporter-junit-export newman/results.xml
   displayName: 'Run Product API Tests with Newman'
 
-# Step 17: Publish Test Results
+# Step 16: Publish Test Results
 - task: PublishTestResults@2
   displayName: 'Publish Postman Test Results'
   inputs:
@@ -142,3 +135,10 @@ steps:
     testResultsFiles: '**/newman/results.xml'
     failTaskOnFailedTests: true
   condition: succeededOrFailed()
+
+# Step 17: Docker Push
+- script: |
+    docker push $(DOCKER_IMAGE_NAME):$(Build.BuildId)
+    docker push $(DOCKER_IMAGE_NAME):latest
+  displayName: 'Docker Push'
+  condition: succeeded()
