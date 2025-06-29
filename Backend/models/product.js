@@ -12,28 +12,28 @@ module.exports = class Product {
   save() {
     if (this.id) {
       // UPDATE
-      return db.execute(
-        'UPDATE products SET title = ?, imageUrl = ?, description = ?, price = ? WHERE id = ?',
+      return db.query(
+        'UPDATE product SET title = ?, imageUrl = ?, description = ?, price = ? WHERE id = ?',
         [this.title, this.imageUrl, this.description, this.price, this.id]
       );
     } else {
       // INSERT
-      return db.execute(
-        'INSERT INTO products (title, imageUrl, description, price) VALUES (?, ?, ?, ?)',
+      return db.query(
+        'INSERT INTO product (title, imageUrl, description, price) VALUES (?, ?, ?, ?)',
         [this.title, this.imageUrl, this.description, this.price]
       );
     }
   }
 
   static fetchAll() {
-    return db.execute('SELECT * FROM products');
+    return db.query('SELECT * FROM product');
   }
 
   static findById(id) {
-    return db.execute('SELECT * FROM products WHERE id = ?', [id]);
+    return db.query('SELECT * FROM product WHERE id = ?', [id]);
   }
 
   static deleteById(id) {
-    return db.execute('DELETE FROM products WHERE id = ?', [id]);
+    return db.query('DELETE FROM product WHERE id = ?', [id]);
   }
 };
