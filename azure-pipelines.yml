@@ -79,6 +79,13 @@ steps:
     JAVA_HOME: '/usr/lib/jvm/java-21-openjdk'
     PATH: '/usr/lib/jvm/java-21-openjdk/bin:$(PATH)'
 
+# Publish OWASP Report as Artifact
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish OWASP Report Artifact'
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/dependency-check-report'
+    artifactName: 'OWASP-Report'
+
 # Step 9: Docker Login
 - script: |
     echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
@@ -126,6 +133,13 @@ steps:
       --reporters cli,junit \
       --reporter-junit-export newman/results.xml
   displayName: 'Run Product API Tests with Newman'
+
+# Optional: Publish Newman Report Directory as Artifact
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Newman Report Artifact'
+  inputs:
+    pathToPublish: 'newman'
+    artifactName: 'Newman-Report'
 
 # Step 16: Publish Test Results
 - task: PublishTestResults@2
