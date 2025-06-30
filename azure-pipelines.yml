@@ -101,42 +101,15 @@ steps:
 
 # Step 12: Trivy Docker Image Scan
 - script: |
-    mkdir -p $(Build.ArtifactStagingDirectory)/trivy-image
-    trivy image \
-      --format html \
-      --output $(Build.ArtifactStagingDirectory)/trivy-image/image-report.html \
-      --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
+    trivy image --format table --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
       --ignore-unfixed $(DOCKER_IMAGE_NAME):$(Build.BuildId)
-    ls -la $(Build.ArtifactStagingDirectory)/trivy-image
   displayName: 'Trivy Docker Image Scan'
-
-# Publish Trivy Docker Image Report
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Trivy Docker Report'
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/trivy-image'
-    artifactName: 'Trivy-Docker-Scan'
-  condition: always()
 
 # Step 13: Trivy File System Scan
 - script: |
-    mkdir -p $(Build.ArtifactStagingDirectory)/trivy-fs
-    trivy fs Backend \
-      --format html \
-      --output $(Build.ArtifactStagingDirectory)/trivy-fs/fs-report.html \
-      --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
+    trivy fs Backend --format table --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
       --ignore-unfixed
-    ls -la $(Build.ArtifactStagingDirectory)/trivy-fs
   displayName: 'Trivy File System Scan'
-
-# Publish Trivy File System Report
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Trivy FS Report'
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/trivy-fs'
-    artifactName: 'Trivy-FS-Scan'
-  condition: always()
-
 
 # Step 14: Install Newman
 - task: Npm@1
@@ -153,13 +126,6 @@ steps:
       --reporters cli,junit \
       --reporter-junit-export newman/results.xml
   displayName: 'Run Product API Tests with Newman'
-
-# Optional: Publish Newman Report Directory as Artifact
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Newman Report Artifact'
-  inputs:
-    pathToPublish: 'newman'
-    artifactName: 'Newman-Report'
 
 # Step 16: Publish Test Results
 - task: PublishTestResults@2
