@@ -105,11 +105,26 @@ steps:
       --ignore-unfixed $(DOCKER_IMAGE_NAME):$(Build.BuildId)
   displayName: 'Trivy Docker Image Scan'
 
+# Publish Trivy Docker Image Report
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Trivy Docker Report'
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/trivy-image'
+    artifactName: 'Trivy-Docker-Scan'
+
 # Step 13: Trivy File System Scan
 - script: |
     trivy fs Backend --format table --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
       --ignore-unfixed
   displayName: 'Trivy File System Scan'
+  
+# Publish Trivy File System Report
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Trivy FS Report'
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/trivy-fs'
+    artifactName: 'Trivy-FS-Scan'
+
 
 # Step 14: Install Newman
 - task: Npm@1
